@@ -1,10 +1,14 @@
 # TinyArchipelago
-# About
-A little ProcJam project which creates Archipelagos.
+
+## About
+A little ProcJam project that creates archipelagos.
+
+Try it online: https://captainlepidus.github.io/TinyArchipelago/
+
 
 ## Attribution
-- [Yvan Scher](https://medium.com/@yvanscher): inspiration
-- [Martin Ankerl](https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/): harmonious palette generation
-- [PIXI.JS](http://www.pixijs.com/): rendering
+- [Yvan Scher](https://medium.com/@yvanscher): Inspiration
+- [Martin Ankerl](https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/): Harmonious palette generation
+- [PIXI.JS](http://www.pixijs.com/): Rendering
 - [Endesga16](https://lospec.com/palette-list/endesga16): Palette
-- Stefan Gustavson: perlin noise library
+- [Stefan Gustavson](https://github.com/josephg/noisejs): Perlin noise implementation
