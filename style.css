@@ -1,0 +1,85 @@
+:root {
+    --body-color: #ffffff;
+    --content-color: #d3d3d3;
+    --content-border: 1px solid #a0a0a0;
+    --content-border-radius: 0.25em;
+    --content-highlight-color: #e9e9e9;
+    --content-highlight-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    --emphasis-color: #4caf50;
+    --emphasis-highlight-color: #60e065;
+    --transition: all 0.5s;
+}
+body {
+    background-color: var(--body-color);
+}
+#tileInspector {
+    width: 25%;
+    background-color: var(--content-color);
+    border: var(--content-border);
+    border-radius: var(--content-border-radius);
+    transition: var(--transition);
+}
+#tileInspector:hover {
+    background-color: var(--content-highlight-color);
+    box-shadow: var(--content-highlight-shadow);
+}
+#tileInspector ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.smallInput {
+    width: 2rem;
+}
+button {
+    background: var(--content-color);
+    border: var(--content-border);
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: var(--content-border-radius);
+    transition: var(--transition);
+}
+button:hover {
+    background: var(--content-highlight-color);
+    box-shadow: var(--content-highlight-shadow);
+    cursor: pointer;
+}
+.slider {
+    -webkit-appearance: none;
+    background: var(--content-color);
+    outline: none;
+    height: 1.5em;
+    line-height: 1.5em;
+    width: 10em;
+    transition: var(--transition);
+    border-radius: var(--content-border-radius);
+}
+.slider:hover {
+    background: var(--content-highlight-color);
+    box-shadow: var(--content-highlight-shadow);
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--emphasis-color);
+    height: 100%;
+    width: 1.5em;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: var(--content-border-radius);
+}
+.slider::-moz-range-thumb {
+    background: var(--emphasis-color);
+    height: 100%;
+    width: 1.5em;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: var(--content-border-radius);
+}
+.slider:hover::-webkit-slider-thumb {
+    background: var(--emphasis-highlight-color);
+    box-shadow: var(--content-highlight-shadow);
+}
+.slider:hover::-moz-range-thumb {
+    background: var(--emphasis-highlight-color);
+    box-shadow: var(--content-highlight-shadow);
+}
