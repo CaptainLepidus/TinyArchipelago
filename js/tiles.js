@@ -105,12 +105,12 @@ Tile.prototype.calculateBorders = function() {
 }
 
 Tile.prototype.render = function() {
+    var col, i, d;
+    
     if (VIEW_MODES[viewer.viewMode].renderBackground === false && this.world.biomes[this.biome].isBackground) {
         this.container.visible = false;
         return;
-    }
-    
-    var col, i;
+    }    
 
     this.container.visible = true;
     if (this.bordersChanged) {
@@ -137,7 +137,8 @@ Tile.prototype.render = function() {
     } else if (viewer.viewMode === VIEW_MODE_HEIGHT) {
         col = colorRGB(this.height, this.height, this.height);
     } else if (viewer.viewMode === VIEW_MODE_HEAT) {
-        col = colorRGB(this.temperature, this.temperature, this.temperature);
+        d = this.temperature - 0.5;
+        col = colorRGB(Math.max(d, 0) * 2, (0.5 - Math.abs(d)) * 2, Math.max(-d, 0) * 2);
     } else if (viewer.viewMode === VIEW_MODE_SALT) {
         col = colorRGB(this.salinity, this.salinity, this.salinity);
     } else if (viewer.viewMode === VIEW_MODE_SUITABILITY) {
