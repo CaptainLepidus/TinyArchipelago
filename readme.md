@@ -1,7 +1,7 @@
 # TinyArchipelago
 
 ## About
-A little ProcJam project that creates archipelagos.
+A little ProcJam project that creates archipelagos. Much of the source code, particularly map.js, is not very clean, but it is fairly well-optimized.
 
 Try it online: https://captainlepidus.github.io/TinyArchipelago/
 

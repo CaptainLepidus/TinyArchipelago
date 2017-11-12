@@ -31,13 +31,18 @@ Tile.prototype.generate = function() {
 }
 
 Tile.prototype.automataProcess = function() {
-    var property;
+    var property, changed;
+    changed = false;
     for (property in this.changedProperties) {
-        this[property] = this.changedProperties[property];
+        if (this[property] !== this.changedProperties[property]) {
+            this[property] = this.changedProperties[property];
+            changed = true;
+        }
     }
     this.changedProperties = {};
     this.calculateBiome();
     this.calculateBorders();
+    return changed;
 }
 
 Tile.prototype.automataDeposition = function() {
@@ -51,7 +56,7 @@ Tile.prototype.automataDeposition = function() {
         }
         var neighbor = this.world.getTile(v2Add(this.position, offset));
         if (neighbor !== null) {
-            this.changedProperties.salinity += neighbor.salinity / 4;
+            this.changedProperties.salinity = Math.min(this.changedProperties.salinity + neighbor.salinity / 10, 1);
         }
     }
 }
@@ -130,6 +135,7 @@ Tile.prototype.render = function() {
                 this.container.lineTo(line[2] * this.scale.x, line[3] * this.scale.y);
             }
         }
+        this.bordersChanged = false;
     }
     
     if (viewer.viewMode === VIEW_MODE_CONTINENT && this.continent !== null) {

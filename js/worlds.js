@@ -15,6 +15,7 @@ function World(size, scale, seaLevel) {
     this.container = new PIXI.Container();
     this.container.world = this;
     this.container.interactive = true;
+    this.container.interactiveChildren = false; // reduces work for Pixi's interaction manager
     this.container.hitArea = new PIXI.Rectangle(0, 0, this.dimensions.x, this.dimensions.y);
     this.container.buttonMode = true;
     this.container
@@ -38,6 +39,7 @@ function World(size, scale, seaLevel) {
 }
 
 World.prototype.makeBiomes = function() {
+    var maxSalinity = 0.3;
     this.biomes = [
         {
             name: "Deep Ocean",
@@ -66,7 +68,7 @@ World.prototype.makeBiomes = function() {
             maxHeight: 1.1,
             minTemperature: 0.2,
             maxTemperature: 0.6,
-            maxSalinity: 0.2 // grass can't grow in salty areas - creates beaches
+            maxSalinity: maxSalinity // grass can't grow in salty areas - creates beaches
         },
         {
             name: "Snow",
@@ -94,7 +96,7 @@ World.prototype.makeBiomes = function() {
             maxHeight: 1.1,
             minTemperature: 0.6,
             maxTemperature: 1.1,
-            maxSalinity: 0.2
+            maxSalinity: maxSalinity
         },
         {
             name: "Beach",
@@ -132,7 +134,7 @@ World.prototype.create = function() {
 }
 
 World.prototype.generate = function() {
-    var time, i, j;
+    var time, i, j, k, hue, saturation, value, iterations;
     time = performance.now();
     this.seed = Math.random();
     noise.seed(this.seed);
@@ -174,10 +176,10 @@ World.prototype.generate = function() {
 
     // generate indefinitely long, aesthetically pleasing color palette for continents
     // https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
-    var hue = this.seed;
-    var saturation = 0.5;
-    var value = 0.95;
-    for(var i = 0; i < this.continents.length; i++) {
+    hue = this.seed;
+    saturation = 0.5;
+    value = 0.95;
+    for(i = 0; i < this.continents.length; i++) {
         hue += GOLDEN_RATIO_CONJUGATE;
         hue = hue % 1;
         this.continents[i].color = colorHSV(hue, saturation, value);
@@ -185,17 +187,17 @@ World.prototype.generate = function() {
     }
 
     // Cellular automata
-    var iterations = 3;
-    for(var i = 0; i < iterations; i++) {
+    iterations = 5;
+    for(k = 0; k < iterations; k++) {
         // Automata processes: salt deposition
-        for(var i = 0; i < this.size.x; i++) {
-            for (var j = 0; j < this.size.y; j++) {
+        for(i = 0; i < this.size.x; i++) {
+            for (j = 0; j < this.size.y; j++) {
                 this.tiles[i][j].automataDeposition();
             }
         }
         // Process the results of our automata
-        for(var i = 0; i < this.size.x; i++) {
-            for (var j = 0; j < this.size.y; j++) {
+        for(i = 0; i < this.size.x; i++) {
+            for (j = 0; j < this.size.y; j++) {
                 this.tiles[i][j].automataProcess();
             }
         }
