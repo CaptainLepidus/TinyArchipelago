@@ -92,13 +92,13 @@ function print(message) {
 
 var renderer, stage, viewer;
 
-function generate () {    
+function generate () {
     
     //Create the renderer
     var renderOptions = {
         antialias: false
     };
-    renderer = PIXI.autoDetectRenderer(480, 480, renderOptions);
+    renderer = PIXI.autoDetectRenderer(640, 640, renderOptions);
     renderer.backgroundColor = 0xffffff;
     renderer.view.style.border = "1px solid black";
 
@@ -123,7 +123,7 @@ function generate () {
         tileInspector: document.getElementById("tileInspector"),
         world: null,
         init: function() {
-            this.world = new World(vec2(240), vec2(2), 0.7);
+            this.world = new World(vec2(320), vec2(2), 0.7);
             this.stage.addChild(this.world.getContainer());
             this.inspectTile(null);
             var controls = document.getElementById("controls");
