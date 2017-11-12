@@ -5,32 +5,16 @@
     --content-border-radius: 0.25em;
     --content-highlight-color: #e9e9e9;
     --content-highlight-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    --content-padding: 1em;
     --emphasis-color: #4caf50;
     --emphasis-highlight-color: #60e065;
     --transition: all 0.5s;
 }
 body {
     background-color: var(--body-color);
+    text-align: center;
 }
-#tileInspector {
-    width: 25%;
-    background-color: var(--content-color);
-    border: var(--content-border);
-    border-radius: var(--content-border-radius);
-    transition: var(--transition);
-}
-#tileInspector:hover {
-    background-color: var(--content-highlight-color);
-    box-shadow: var(--content-highlight-shadow);
-}
-#tileInspector ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-.smallInput {
-    width: 2rem;
-}
+
 button {
     background: var(--content-color);
     border: var(--content-border);
@@ -44,15 +28,29 @@ button:hover {
     box-shadow: var(--content-highlight-shadow);
     cursor: pointer;
 }
+.controlTab {
+    padding-top: var(--content-padding);
+    padding-bottom: var(--content-padding);
+    text-align: center;
+    background: var(--content-color);
+    border: var(--content-border);
+    border-radius: var(--content-border-radius);
+    width: 40em;
+    margin: auto;    
+}
+.sliderWrapper {
+    padding-left: 1em;
+    padding-right: 1em;
+}
 .slider {
     -webkit-appearance: none;
     background: var(--content-color);
     outline: none;
-    height: 1.5em;
-    line-height: 1.5em;
+    height: 1em;
     width: 10em;
     transition: var(--transition);
     border-radius: var(--content-border-radius);
+    border: var(--content-border);
 }
 .slider:hover {
     background: var(--content-highlight-color);
@@ -62,10 +60,10 @@ button:hover {
     -webkit-appearance: none;
     background: var(--emphasis-color);
     height: 100%;
-    width: 1.5em;
+    width: 1em;
     cursor: pointer;
     transition: var(--transition);
-    border-radius: var(--content-border-radius);
+    border-radius: .5em;
 }
 .slider::-moz-range-thumb {
     background: var(--emphasis-color);
@@ -82,4 +80,24 @@ button:hover {
 .slider:hover::-moz-range-thumb {
     background: var(--emphasis-highlight-color);
     box-shadow: var(--content-highlight-shadow);
+}
+#generate {
+    display: block;
+    margin: auto;
+    margin-top: var(--content-padding);
+}
+#tileInspector {
+    background-color: var(--content-color);
+    border: var(--content-border);
+    border-radius: var(--content-border-radius);
+    transition: var(--transition);
+}
+#tileInspector:hover {
+    background-color: var(--content-highlight-color);
+    box-shadow: var(--content-highlight-shadow);
+}
+#tileInspector ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }

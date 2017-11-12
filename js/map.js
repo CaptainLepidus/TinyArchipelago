@@ -128,15 +128,17 @@ function generate () {
             this.inspectTile(null);
             var controls = document.getElementById("controls");
             var HTML = "";
+            HTML += "<div class='controlTab'>";
             HTML += "<b>View Modes: </b>";
             for(var i = 0; i < VIEW_MODES.length; i++) {
                 HTML += "<button onclick='viewer.setViewMode("+i+");'>" + VIEW_MODES[i].name + "</button>";
             }
-            HTML += "<br>";            
-            HTML += "Sea Level: <input type='range' min='1' max='100' class='slider' id='seaLevel' value="+this.world.seaLevel*100+" ></input> <output for='seaLevel' onforminput='value = seaLevel.valueAsNumber;'></output>";
-            HTML += "Global Temperature: <input type='range' min='0' max='100' class='slider' id='globalTemperature' value="+this.world.globalTemperature*100+" ></input>";
-            HTML += "<br>";
-            HTML += "<button onclick='viewer.generate();'>Generate New Map</button> ";
+            HTML += "</div>";
+            HTML += "<div class='controlTab'>";            
+            HTML += "<span class='sliderWrapper'>Sea Level: <input type='range' min='1' max='100' class='slider' id='seaLevel' value="+this.world.seaLevel*100+" ></input></span>";
+            HTML += "<span class='sliderWrapper'>Global Temperature: <input type='range' min='0' max='100' class='slider' id='globalTemperature' value="+this.world.globalTemperature*100+" ></input></span>";
+            HTML += "<button id='generate' onclick='viewer.generate();'>Generate New Map</button> ";
+            HTML += "</div>";
             controls.innerHTML = HTML;
         },
         render: function() {
