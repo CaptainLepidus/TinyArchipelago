@@ -42,8 +42,8 @@ World.prototype.makeBiomes = function() {
     var maxSalinity = 0.3;
     this.biomes = [
         {
-            name: "Deep Ocean",
-            color: colorInt(0x0484d1),
+            name: "Ocean",
+            color: colorInt(0x0474c1),
             isBackground: true,
             water: true,
             minHeight: 0.0,
@@ -52,8 +52,8 @@ World.prototype.makeBiomes = function() {
             maxTemperature: 1.1
         },
         {
-            name: "Shallow Waters",
-            color: colorInt(0x2ce8f4),
+            name: "Coastal Waters",
+            color: colorInt(0x0484d1),
             water: true,
             minHeight: this.seaLevel * 0.8,
             maxHeight: this.seaLevel,
