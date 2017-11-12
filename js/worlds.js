@@ -75,7 +75,7 @@ World.prototype.makeBiomes = function() {
             minHeight: this.seaLevel,
             maxHeight: 1.1, // no maximum
             minTemperature: 0.0,
-            maxTemperature: 0.08
+            maxTemperature: 0.05
         },
         {
             name: "Tundra",
@@ -83,7 +83,7 @@ World.prototype.makeBiomes = function() {
             water: false,
             minHeight: this.seaLevel,
             maxHeight: 1.1,
-            minTemperature: 0.08,
+            minTemperature: 0.05,
             maxTemperature: 0.2
         },
         {
@@ -132,25 +132,35 @@ World.prototype.create = function() {
 }
 
 World.prototype.generate = function() {
-    var time = performance.now();
+    var time, i, j;
+    time = performance.now();
     this.seed = Math.random();
     noise.seed(this.seed);
     this.uncheckedTiles = [];
     this.continents = [];
-    for(var i = 0; i < this.size.x; i++) {
-        for (var j = 0; j < this.size.y; j++) {
+
+    // generate individual tiles
+    for(i = 0; i < this.size.x; i++) {
+        for (j = 0; j < this.size.y; j++) {
             this.tiles[i][j].generate();
-            if (!this.biomes[this.tiles[i][j].biome].water) {
-                this.uncheckedTiles.push(this.tiles[i][j]);
+            if (this.tiles[i][j].height >= this.seaLevel) {
+                this.uncheckedTiles.push(this.tiles[i][j]); // this tile will need to be assigned a continent
             }
         }
     }
 
+    this.tilesToAssign = [];
     // Identify continents
     while (this.uncheckedTiles.length > 0) {
         var tt = this.uncheckedTiles[0];
         this.assignContinent(tt);
+        // to avoid stack overflow (caused by recursion), we create a list of tiles to assign
+        while (this.tilesToAssign.length > 0) {
+            this.assignContinent(this.tilesToAssign[0], this.tilesToAssign[0].continent);
+            this.tilesToAssign.splice(0, 1);
+        }
     }
+    delete this.tilesToAssign;
 
     this.continents.sort(function(a, b) {
         if (a.tiles.length < b.tiles.length) {
@@ -204,8 +214,9 @@ World.prototype.assignContinent = function(tile, continent) {
     continent.addTile(tile);
     for (i = 0; i < DIRECTION_OFFSETS.length; i++) {
         neighbor = this.getTile(v2Add(tile.position, DIRECTION_OFFSETS[i]));
-        if (neighbor !== null && this.uncheckedTiles.includes(neighbor)) {
-            this.assignContinent(neighbor, continent);
+        if (neighbor !== null && this.uncheckedTiles.includes(neighbor) && neighbor.continent === null) {
+            neighbor.continent = continent;
+            this.tilesToAssign.push(neighbor);
         }
     }
 }
