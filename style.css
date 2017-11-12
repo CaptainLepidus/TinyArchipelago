@@ -86,16 +86,6 @@ button:hover {
     margin: auto;
     margin-top: var(--content-padding);
 }
-#tileInspector {
-    background-color: var(--content-color);
-    border: var(--content-border);
-    border-radius: var(--content-border-radius);
-    transition: var(--transition);
-}
-#tileInspector:hover {
-    background-color: var(--content-highlight-color);
-    box-shadow: var(--content-highlight-shadow);
-}
 #tileInspector ul {
     list-style-type: none;
     margin: 0;
