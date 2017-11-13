@@ -1,16 +1,19 @@
+"use strict";
 function Tile(world, position) {
     this.position = position;
     this.world = world;
     this.borders = new Array(BORDER_LINES.length);
     this.scale = this.world.scale;
-    this.continent = null;
-    this.bordersChanged = false;
 
     this.container = new PIXI.Graphics();
     this.container.position = v2Multiply(this.position, this.scale);
 
     this.changedProperties = {}; // for automata
 }
+
+// declarations on the prototype are faster
+Tile.prototype.continent = null;
+Tile.prototype.bordersChanged = false;
 
 Tile.prototype.generate = function() {
     this.continent = null;
@@ -30,18 +33,18 @@ Tile.prototype.generate = function() {
     this.calculateBiome();
 }
 
-Tile.prototype.automataProcess = function() {
+Tile.prototype.automataProcess = function(recompute) {
     var property, changed;
     changed = false;
-    for (property in this.changedProperties) {
-        if (this[property] !== this.changedProperties[property]) {
-            this[property] = this.changedProperties[property];
-            changed = true;
-        }
+    if (this.changedProperties.salinity !== undefined && this.changedProperties.salinity !== this.salinity) {
+        this.salinity = this.changedProperties.salinity;
+        changed = true;
     }
     this.changedProperties = {};
-    this.calculateBiome();
-    this.calculateBorders();
+    if (recompute) {
+        this.calculateBiome();
+        this.calculateBorders();
+    }
     return changed;
 }
 
@@ -56,7 +59,7 @@ Tile.prototype.automataDeposition = function() {
         }
         var neighbor = this.world.getTile(v2Add(this.position, offset));
         if (neighbor !== null) {
-            this.changedProperties.salinity = Math.min(this.changedProperties.salinity + neighbor.salinity / 10, 1);
+            this.changedProperties.salinity = Math.min(this.changedProperties.salinity + neighbor.salinity / 5, 1);
         }
     }
 }

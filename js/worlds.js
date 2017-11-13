@@ -1,13 +1,11 @@
+"use strict";
 function World(size, scale, seaLevel) {
     this.size = size;
     this.scale = scale;
     this.dimensions = v2Multiply(this.size, this.scale);
     this.seaLevel = seaLevel;
-    this.globalTemperature = 0.5;
     this.continents = [];
     this.uncheckedTiles = [];
-    this.tileSelected = null;
-    this.created = false;
 
     this.center = v2Multiply(this.size, vec2(0.5));
     this.maxDistSquared = v2DistSquared(vec2(), this.center);
@@ -37,6 +35,10 @@ function World(size, scale, seaLevel) {
 
     this.render();
 }
+
+World.prototype.globalTemperature = 0.5;    
+World.prototype.tileSelected = null;
+World.prototype.created = false;
 
 World.prototype.makeBiomes = function() {
     var maxSalinity = 0.3;
@@ -151,7 +153,7 @@ World.prototype.generate = function() {
         }
     }
 
-    this.tilesToAssign = [];
+    this.tilesToAssign = []; //temporary list of neighboring tiles
     // Identify continents
     while (this.uncheckedTiles.length > 0) {
         var tt = this.uncheckedTiles[0];
@@ -187,7 +189,7 @@ World.prototype.generate = function() {
     }
 
     // Cellular automata
-    iterations = 5;
+    iterations = 3;
     for(k = 0; k < iterations; k++) {
         // Automata processes: salt deposition
         for(i = 0; i < this.size.x; i++) {
@@ -198,7 +200,7 @@ World.prototype.generate = function() {
         // Process the results of our automata
         for(i = 0; i < this.size.x; i++) {
             for (j = 0; j < this.size.y; j++) {
-                this.tiles[i][j].automataProcess();
+                this.tiles[i][j].automataProcess(k === (iterations - 1)); // only recompute everything on our last iteration
             }
         }
     }
@@ -224,7 +226,8 @@ World.prototype.assignContinent = function(tile, continent) {
 }
 
 World.prototype.render = function() {
-    var bgColor = this.biomes[0].color;
+    var bgColor, i, j;
+    bgColor = this.biomes[0].color;
     if (VIEW_MODES[viewer.viewMode].renderBackground) {
         bgColor = colorRGB(0, 0, 0);
     }
@@ -232,16 +235,17 @@ World.prototype.render = function() {
         bgColor = VIEW_MODES[viewer.viewMode].bgColor;
     }
     this.background.tint = bgColor.getInt();
-    for(var i = 0; i < this.size.x; i++) {
-        for (var j = 0; j < this.size.y; j++) {
+    for(i = 0; i < this.size.x; i++) {
+        for (j = 0; j < this.size.y; j++) {
             this.tiles[i][j].render();
         }
     }
 }
 
 World.prototype.pointerMove = function(event) {
-    var pos = event.data.getLocalPosition(this);
-    var tilePos = v2Floor(v2Divide(pos, this.world.scale));
+    var pos, tilePos;
+    pos = event.data.getLocalPosition(this);
+    tilePos = v2Floor(v2Divide(pos, this.world.scale));
     this.world.tileSelected = this.world.getTile(tilePos);
 }
 

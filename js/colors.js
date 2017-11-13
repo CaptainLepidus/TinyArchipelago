@@ -1,3 +1,5 @@
+"use strict";
+
 function Color() {
     this.int = 0;
 }

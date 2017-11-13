@@ -1,18 +1,5 @@
 "use strict";
 const GOLDEN_RATIO_CONJUGATE = 0.618033988749895;
-const RIGHT = 0, UP = 1, LEFT = 2, DOWN = 3;
-const BORDER_LINES = [
-    [1, 0, 1, 1],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1],
-    [0, 1, 1, 1]
-]
-const DIRECTION_OFFSETS = [
-    vec2(1, 0),
-    vec2(0, -1),
-    vec2(-1, 0),
-    vec2(0, 1)
-]
 const VIEW_MODES = [
     {
         name: "Biomes",

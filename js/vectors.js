@@ -1,3 +1,18 @@
+"use strict";
+const RIGHT = 0, UP = 1, LEFT = 2, DOWN = 3;
+const BORDER_LINES = [
+    [1, 0, 1, 1],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1],
+    [0, 1, 1, 1]
+];
+const DIRECTION_OFFSETS = [
+    vec2(1, 0),
+    vec2(0, -1),
+    vec2(-1, 0),
+    vec2(0, 1)
+];
+
 // vec2(x,y) [x,y]
 // vec2(x): [x,x]
 // vec2() [0,0]
